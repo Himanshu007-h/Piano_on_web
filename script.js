@@ -1,23 +1,21 @@
+const keys = document.querySelectorAll(".key");
+const whiteKeys = document.querySelectorAll(".key.white");
+const blackKeys = document.querySelectorAll(".key.black");
 
-function getData()
-{
-    const city = search.value;
-    const options = {
-        method: 'GET',
-        headers: {
-            'X-RapidAPI-Key': '0fa9ebae3cmsh524a1994e11af3ap13953ajsn63f83424600e',
-            'X-RapidAPI-Host': 'weather-by-api-ninjas.p.rapidapi.com'
-        }
-    };
-    
-    fetch('https://weather-by-api-ninjas.p.rapidapi.com/v1/weather?city='+city, options)
-        .then(response => response.json())
-        .then(response => {
-            console.log(response)
-            temp.innerHTML = response.temp;
-            ws.innerHTML = response.wind_speed;
-            hmdty.innerHTML = response.humidity
+keys.forEach(key => key.addEventListener("click", handleKeyClick));
 
-        })
-        .catch(err => console.error(err));
+function handleKeyClick(event) {
+    playKey(event.target);
+}
+
+function playKey(key) {
+    const keyAudio = document.getElementById(key.dataset.note);
+    if (keyAudio) {
+        keyAudio.currentTime = 0;
+        keyAudio.play();
+        key.classList.add("active");
+        keyAudio.addEventListener("ended", () => {
+            key.classList.remove("active");
+        });
+    }
 }
